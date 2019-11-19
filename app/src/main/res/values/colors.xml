@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2F2963</color>
-    <color name="colorSecondary">#04395E</color>
-    <color name="colorAccentPrimary">#B02F2A</color>
-    <color name="colorAccentSecondary">#5CC8FF</color>
-    <color name="colorSuccess">#0E402D</color>
+	<color name="colorPrimary">#0E5762</color>
+	<color name="colorSecondary">#A2A4A9</color>
+	<color name="colorAccent">#80ADA0</color>
+	<color name="colorInfo">#5F5566</color>
+	<color name="colorSuccess">#528C57</color>
+	<color name="colorWarning">#C5D86E</color>
+	<color name="colorError">#9E0032</color>
 </resources>
