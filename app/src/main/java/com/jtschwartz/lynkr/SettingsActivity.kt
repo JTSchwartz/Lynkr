@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,24 +14,23 @@ import org.jetbrains.anko.toast
 
 class SettingsActivity : AppCompatActivity() {
 	
-	var bluetoothAdapter: BluetoothAdapter? = null
-	lateinit var pairedDevices: Set<BluetoothDevice>
-	val REQUEST_ENABLE_BLUETOOTH = 1
-	var btDevice: BluetoothDevice? = null
-	
 	companion object {
+		var btAdapter: BluetoothAdapter? = null
+		var btDevice: BluetoothDevice? = null
 		const val EXTRA_ADDRESS: String = "BT_Device"
+		lateinit var pairedDevices: Set<BluetoothDevice>
+		const val REQUEST_ENABLE_BLUETOOTH = 1
 	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_settings)
 		
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-		if (bluetoothAdapter == null) {
+		btAdapter = BluetoothAdapter.getDefaultAdapter()
+		if (btAdapter == null) {
 			toast("Device does not support Bluetooth")
 			return
-		} else if (!bluetoothAdapter!!.isEnabled){
+		} else if (!btAdapter!!.isEnabled){
 			val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
 			startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
 		}
@@ -41,7 +39,7 @@ class SettingsActivity : AppCompatActivity() {
 	}
 	
 	fun refreshBluetoothList(view: View? = null) {
-		pairedDevices = bluetoothAdapter!!.bondedDevices
+		pairedDevices = btAdapter!!.bondedDevices
 		val btDeviceList: ArrayList<BluetoothDevice> = ArrayList()
 		
 		if (pairedDevices.isNotEmpty()) {
@@ -52,7 +50,7 @@ class SettingsActivity : AppCompatActivity() {
 			toast("No paired bluetooth devices found")
 		}
 		
-		val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, btDeviceList)
+		val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, btDeviceList.map { it.name })
 		settings_devices.adapter = adapter
 		settings_devices.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ ->
 			btDevice = btDeviceList[pos]
@@ -71,7 +69,7 @@ class SettingsActivity : AppCompatActivity() {
 		super.onActivityResult(requestCode, resultCode, data)
 		if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
 			if (resultCode == Activity.RESULT_OK) {
-				if (bluetoothAdapter!!.isEnabled) {
+				if (btAdapter!!.isEnabled) {
 					toast("Bluetooth has been enabled")
 				} else {
 					toast("Bluetooth has been disabled")
