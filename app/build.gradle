@@ -6,7 +6,7 @@ android {
 	compileSdkVersion 29
 	defaultConfig {
 		applicationId "com.jtschwartz.lynkr"
-		minSdkVersion 22
+		minSdkVersion 23
 		targetSdkVersion 29
 		versionCode 1
 		versionName "1.0"
@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-	api 'com.google.android.material:material:1.2.0-alpha01'
+	api 'com.google.android.material:material:1.2.0-alpha02'
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 	implementation 'androidx.appcompat:appcompat:1.1.0'

@@ -18,6 +18,7 @@ class SettingsActivity : AppCompatActivity() {
 		var btAdapter: BluetoothAdapter? = null
 		var btDevice: BluetoothDevice? = null
 		const val EXTRA_ADDRESS: String = "BT_Device"
+		const val EXTRA_NAME: String = "BT_Name"
 		lateinit var pairedDevices: Set<BluetoothDevice>
 		const val REQUEST_ENABLE_BLUETOOTH = 1
 	}
@@ -60,6 +61,7 @@ class SettingsActivity : AppCompatActivity() {
 	fun navigateHome(view: View) {
 		val result = Intent()
 		result.putExtra(EXTRA_ADDRESS, btDevice.toString())
+		result.putExtra(EXTRA_NAME, btDevice!!.name)
 		setResult(Activity.RESULT_OK, result)
 		
 		finish()

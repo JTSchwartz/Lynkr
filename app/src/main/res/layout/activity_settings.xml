@@ -67,13 +67,6 @@
 		</androidx.constraintlayout.widget.ConstraintLayout>
 
 		<ListView
-			android:id="@+id/settings_remaining"
-			android:layout_width="match_parent"
-			android:layout_height="250dp"
-			android:layout_weight="1"
-			android:background="@color/colorSecondary" />
-
-		<ListView
 			android:id="@+id/settings_devices"
 			android:layout_width="match_parent"
 			android:layout_height="250dp"
