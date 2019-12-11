@@ -1,3 +1,14 @@
+//*******************************************************************************
+//
+//      filename:  MainActivity.kt
+//
+//   description:  Implements the Main UI Activity and all necessary communication functions
+//
+//        author:  Schwartz, Jacob T.
+//       Copyright (c) 2019 Schwartz, Jacob T. University of Dayton
+//
+//******************************************************************************
+
 package com.jtschwartz.lynkr
 
 import android.app.Activity

@@ -1,3 +1,14 @@
+//*******************************************************************************
+//
+//      filename:  SettingsActivity.kt
+//
+//   description:  Implements the Settings UI Activity for selecting a Lynkr server
+//
+//        author:  Schwartz, Jacob T.
+//       Copyright (c) 2019 Schwartz, Jacob T. University of Dayton
+//
+//******************************************************************************
+
 package com.jtschwartz.lynkr
 
 import android.app.Activity
