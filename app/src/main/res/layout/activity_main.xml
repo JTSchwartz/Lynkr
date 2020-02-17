@@ -8,9 +8,68 @@
 	tools:context=".MainActivity">
 
 	<ImageButton
+		android:id="@+id/prev_track"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:layout_marginBottom="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/power_opt"
+		android:onClick="btnMedia"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintBottom_toTopOf="@+id/volume_mute"
+		app:layout_constraintEnd_toStartOf="@+id/play_pause"
+		app:layout_constraintStart_toStartOf="parent"
+		app:srcCompat="@drawable/ic_skip_previous_black_24dp" />
+
+	<ImageButton
+		android:id="@+id/play_pause"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/power_opt"
+		android:onClick="btnMedia"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/prev_track"
+		app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+
+	<ImageButton
+		android:id="@+id/next_track"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/power_opt"
+		android:onClick="btnMedia"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/play_pause"
+		app:layout_constraintTop_toTopOf="@+id/play_pause"
+		app:srcCompat="@drawable/ic_skip_next_black_24dp" />
+
+	<ImageButton
+		android:id="@+id/hibernate"
+		android:layout_width="102dp"
+		android:layout_height="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/lock"
+		android:onClick="btnPower"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toStartOf="@+id/lock"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toEndOf="@+id/shutdown"
+		app:layout_constraintTop_toTopOf="@+id/shutdown"
+		app:srcCompat="@drawable/ic_local_hotel_black_24dp" />
+
+	<ImageButton
 		android:id="@+id/settings"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
+		android:layout_width="32dp"
+		android:layout_height="32dp"
+		android:layout_marginTop="16dp"
 		android:layout_marginEnd="16dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/settings"
@@ -18,22 +77,23 @@
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/power_opt"
+		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_settings_black_24dp" />
 
 	<ImageButton
-		android:id="@+id/power_opt"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="160dp"
+		android:id="@+id/shutdown"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="32dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/power_opt"
-		android:onClick="btnPowerOptions"
+		android:onClick="btnPower"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toStartOf="@+id/hibernate"
+		app:layout_constraintHorizontal_bias="0.5"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/settings"
 		app:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
 
 	<View
@@ -112,70 +172,38 @@
 
 	<ImageButton
 		android:id="@+id/volume_mute"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_marginStart="24dp"
+		android:layout_marginBottom="32dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/mute"
-		android:onClick="btnVolume"
+		android:onClick="btnMute"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
-		app:layout_constraintBottom_toBottomOf="@+id/volume_decrease"
-		app:layout_constraintEnd_toStartOf="@+id/volume_decrease"
-		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintBottom_toTopOf="@+id/divider"
 		app:layout_constraintStart_toStartOf="parent"
 		app:srcCompat="@drawable/ic_volume_off_black_24dp" />
 
 	<ImageButton
-		android:id="@+id/volume_decrease"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
-		android:layout_marginBottom="64dp"
-		android:background="@android:color/transparent"
-		android:contentDescription="@string/volume_decrease"
-		android:onClick="btnVolume"
-		android:scaleType="fitCenter"
-		android:tint="@color/colorAccent"
-		app:layout_constraintBottom_toTopOf="@+id/divider"
-		app:layout_constraintEnd_toStartOf="@+id/volume_increase"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toEndOf="@+id/volume_mute"
-		app:srcCompat="@drawable/ic_volume_down_black_24dp" />
-
-	<ImageButton
-		android:id="@+id/volume_increase"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
-		android:background="@android:color/transparent"
-		android:contentDescription="@string/volume_increase"
-		android:onClick="btnVolume"
-		android:scaleType="fitCenter"
-		android:tint="@color/colorAccent"
-		app:layout_constraintBottom_toBottomOf="@+id/volume_decrease"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toEndOf="@+id/volume_decrease"
-		app:srcCompat="@drawable/ic_volume_up_black_24dp" />
-
-	<ImageButton
 		android:id="@+id/lock"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
-		android:layout_marginTop="64dp"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/lock"
-		android:onClick="btnLock"
+		android:onClick="btnPower"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toStartOf="@+id/logout"
 		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/power_opt"
+		app:layout_constraintStart_toEndOf="@+id/hibernate"
+		app:layout_constraintTop_toTopOf="@+id/hibernate"
 		app:srcCompat="@drawable/ic_lock_black_24dp" />
 
 	<ImageButton
 		android:id="@+id/logout"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
+		android:layout_width="102dp"
+		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/camera"
 		android:onClick="btnLogout"
@@ -191,12 +219,37 @@
 		android:id="@+id/curBtDevice"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="64dp"
-		android:text="TextView"
-		android:textSize="24sp"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.5"
+		android:layout_marginStart="16dp"
+		android:textAlignment="textStart"
+		android:textColor="@color/colorAccent"
+		android:textSize="16sp"
+		app:layout_constraintBottom_toBottomOf="@+id/settings"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="@+id/settings" />
+
+	<SeekBar
+		android:id="@+id/volume_bar"
+		style="@android:style/Widget.Material.SeekBar"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
+		android:layout_marginEnd="32dp"
+		android:max="100"
+		android:scaleX="1.25"
+		android:scaleY="1.25"
+		app:layout_constraintBottom_toBottomOf="@+id/volume_mute"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.513"
+		app:layout_constraintStart_toEndOf="@+id/volume_mute"
+		app:layout_constraintTop_toTopOf="@+id/volume_mute" />
+
+	<TextView
+		android:id="@+id/curVolume"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toTopOf="@+id/divider"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/volume_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

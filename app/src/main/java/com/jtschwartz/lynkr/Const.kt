@@ -6,22 +6,32 @@ object Commands {
 		const val lock = "access|lock"
 	}
 	
-	object Power {
-		const val shutdown = "power|shutdown"
-		const val restart = "power|restart"
-	}
-	
-	object Volume {
-		const val increase = "volume|increase"
-		const val decrease = "volume|decrease"
-		const val mute = "volume|mute"
-	}
-	
 	object Keystroke {
 		const val alpha = "keystroke|alpha"
 		const val beta = "keystroke|beta"
 		const val gamma = "keystroke|gamma"
 		const val delta = "keystroke|delta"
+	}
+	
+	object Media {
+		const val next = "media|next"
+		const val playPause = "media|playpause"
+		const val prev = "media|previous"
+	}
+	
+	object Power {
+		const val hibernate = "power|hibernate"
+		const val restart = "power|restart"
+		const val shutdown = "power|shutdown"
+	
+	}
+	
+	object Volume {
+		const val decrease = "volume|decrease"
+		const val increase = "volume|increase"
+		const val mute = "volume|mute"
+		val set = {level: Int -> "volume|$level"}
+	
 	}
 }
 

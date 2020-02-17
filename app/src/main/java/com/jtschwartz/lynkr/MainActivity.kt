@@ -18,16 +18,14 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStreamReader
 import java.util.*
 
 
@@ -49,11 +47,39 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 		
-		curBtDevice.text = if (btAddress != null) "Connected to: ${btAdapter.getRemoteDevice(btAddress)}" else "No Connected Device"
+		setupUI()
+		
+		this.getPreferences(Context.MODE_PRIVATE)?.let {
+			btAddress = it.getString(getString(R.string.preferences_key), null)
+			
+			btAddress?.let {
+				btDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(btAddress)
+				ConnectToDevice(this).execute()
+				curBtDevice.text = btDevice!!.name
+			}
+		}
 	}
 	
-	fun btnLogout(view: View) {
-		sendCommand(Commands.Access.logout)
+	private fun setupUI() {
+		
+		curBtDevice.text = if (btAddress != null) "Connected to: ${btAdapter.getRemoteDevice(btAddress)}" else "No Connected Device"
+		
+		volume_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+			var volumeLevel = 0
+			
+			override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+				val intervaledProgress = if (progress % 2 == 0) progress else (progress + 1)
+				curVolume.text = intervaledProgress.toString().padEnd(1, '%')
+				volumeLevel = intervaledProgress
+			}
+			
+			override fun onStartTrackingTouch(seekBar: SeekBar?) {
+			}
+			
+			override fun onStopTrackingTouch(seekBar: SeekBar?) {
+				sendCommand(Commands.Volume.set(volumeLevel))
+			}
+		})
 	}
 	
 	fun btnKeyStroke(view: View) {
@@ -68,21 +94,34 @@ class MainActivity : AppCompatActivity() {
 		sendCommand(event)
 	}
 	
-	fun btnLock(view: View) {
-		sendCommand(Commands.Access.lock)
+	fun btnLogout(view: View) {
+		sendCommand(Commands.Access.logout)
 	}
 	
-	fun btnPowerOptions(view: View) {
-		sendCommand(Commands.Power.shutdown)
-	}
-	
-	fun btnVolume(view: View) {
-		sendCommand(when (view.id) {
-			volume_increase.id -> Commands.Volume.increase
-			volume_decrease.id -> Commands.Volume.decrease
-			volume_mute.id -> Commands.Volume.mute
+	fun btnPower(view: View) {
+		val event: String? = when (view.id) {
+			hibernate.id -> Commands.Power.hibernate
+			lock.id -> Commands.Access.lock
+			shutdown.id -> Commands.Power.shutdown
 			else -> null
-		})
+		}
+		
+		sendCommand(event)
+	}
+	
+	fun btnMedia(view: View) {
+		val event: String? = when (view.id) {
+			next_track.id -> Commands.Media.next
+			play_pause.id -> Commands.Media.playPause
+			prev_track.id -> Commands.Media.prev
+			else -> null
+		}
+		
+		sendCommand(event)
+	}
+	
+	fun btnMute(view: View) {
+		sendCommand(Commands.Volume.mute)
 	}
 	
 	fun btnSettings(view: View) {
@@ -110,9 +149,15 @@ class MainActivity : AppCompatActivity() {
 				btSocket!!.outputStream.write("${payload!!}\r\n".toByteArray())
 				btSocket!!.outputStream.flush()
 				println(payload)
-				val reception = btSocket!!.inputStream.read()
-				println("Received: $reception")
+				val buffer = ByteArray(512)
+				val length = btSocket!!.inputStream.read(buffer)
+				val reception = String(buffer, 0, length)
+				println("Reception: $reception")
 				btSocket!!.outputStream.close()
+				btSocket!!.inputStream.close()
+				
+				val volume = reception.split("|")[1].trim().toInt()
+				volume_bar.progress = volume
 				
 				btAdapter = BluetoothAdapter.getDefaultAdapter()
 				val device: BluetoothDevice = btAdapter.getRemoteDevice(btAddress)
@@ -124,38 +169,38 @@ class MainActivity : AppCompatActivity() {
 			}
 		}
 	}
-	
-	private fun handleDeepLink(data: Uri?) {
-		try {
-			when (data!!.path) {
-				DeepLink.KEYSTROKE -> {
-					when (data.getQueryParameter(DeepLink.Params.ACTIVITY_TYPE).orEmpty()) {
-						DeepLink.Params.ALPHA -> sendCommand(Commands.Keystroke.alpha)
-						DeepLink.Params.BETA -> sendCommand(Commands.Keystroke.beta)
-						DeepLink.Params.GAMMA -> sendCommand(Commands.Keystroke.gamma)
-						DeepLink.Params.DELTA -> sendCommand(Commands.Keystroke.delta)
-					}
-				}
-				DeepLink.VOLUME_INCREASE -> sendCommand(Commands.Volume.increase)
-				DeepLink.VOLUME_DECREASE -> sendCommand(Commands.Volume.decrease)
-				DeepLink.MUTE -> sendCommand(Commands.Volume.mute)
-				DeepLink.SHUTDOWN -> sendCommand(Commands.Power.shutdown)
-				DeepLink.RESTART -> sendCommand(Commands.Power.restart)
-				DeepLink.LOCK -> sendCommand(Commands.Access.lock)
-				DeepLink.LOGOUT -> sendCommand(Commands.Access.logout)
-				else -> {
-					Log.i("d", "Unable to handle path")
-				}
-			}
-		} catch (e: java.lang.Exception) {
-			Log.i("d", "Received null DeepLink")
-		}
-	}
+
+//	private fun handleDeepLink(data: Uri?) {
+//		try {
+//			when (data!!.path) {
+//				DeepLink.KEYSTROKE -> {
+//					when (data.getQueryParameter(DeepLink.Params.ACTIVITY_TYPE).orEmpty()) {
+//						DeepLink.Params.ALPHA -> sendCommand(Commands.Keystroke.alpha)
+//						DeepLink.Params.BETA -> sendCommand(Commands.Keystroke.beta)
+//						DeepLink.Params.GAMMA -> sendCommand(Commands.Keystroke.gamma)
+//						DeepLink.Params.DELTA -> sendCommand(Commands.Keystroke.delta)
+//					}
+//				}
+//				DeepLink.VOLUME_INCREASE -> sendCommand(Commands.Volume.increase)
+//				DeepLink.VOLUME_DECREASE -> sendCommand(Commands.Volume.decrease)
+//				DeepLink.MUTE -> sendCommand(Commands.Volume.mute)
+//				DeepLink.SHUTDOWN -> sendCommand(Commands.Power.shutdown)
+//				DeepLink.RESTART -> sendCommand(Commands.Power.restart)
+//				DeepLink.LOCK -> sendCommand(Commands.Access.lock)
+//				DeepLink.LOGOUT -> sendCommand(Commands.Access.logout)
+//				else -> {
+//					Log.i("d", "Unable to handle path")
+//				}
+//			}
+//		} catch (e: java.lang.Exception) {
+//			Log.i("d", "Received null DeepLink")
+//		}
+//	}
 	
 	private class ConnectToDevice(c: Context) : AsyncTask<Void, Void, String>() {
 		private var connectSuccess: Boolean = true
 		private val context: Context
-
+		
 		init {
 			this.context = c
 		}
@@ -200,15 +245,19 @@ class MainActivity : AppCompatActivity() {
 				val returnedDevice = data?.getStringExtra(SettingsActivity.EXTRA_ADDRESS)
 				val returnedDeviceName = data?.getStringExtra(SettingsActivity.EXTRA_NAME)
 				println("Got Device: $returnedDevice")
-				val displayString = "Connected to: $returnedDeviceName"
-				curBtDevice.text = displayString
+				curBtDevice.text = returnedDeviceName
 				
 				if (returnedDevice != null) {
 					btAddress = returnedDevice.toString()
-					btDevice = BluetoothAdapter.getDefaultAdapter()
-						.getRemoteDevice(returnedDevice.toString())
+					btDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(btAddress)
 					
 					ConnectToDevice(this).execute()
+					
+					val preferences = this.getPreferences(Context.MODE_PRIVATE) ?: return
+					with(preferences.edit()) {
+						putString(getString(R.string.preferences_key), btAddress)
+						commit()
+					}
 				}
 			}
 		}

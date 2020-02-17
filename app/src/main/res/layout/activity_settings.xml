@@ -12,7 +12,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="16dp"
 		android:layout_marginBottom="16dp"
-		android:backgroundTint="@color/colorPrimary"
+		android:backgroundTint="@color/colorAccent"
 		android:clickable="true"
 		android:focusable="true"
 		android:onClick="refreshBluetoothList"
@@ -21,7 +21,7 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:maxImageSize="32dp"
 		app:srcCompat="@drawable/ic_refresh_black_24dp"
-		app:tint="@color/colorAccent" />
+		app:tint="@color/colorPrimary" />
 
 	<LinearLayout
 		android:id="@+id/linearLayout"
@@ -40,8 +40,8 @@
 
 			<ImageButton
 				android:id="@+id/settings_return"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
 				android:layout_marginStart="16dp"
 				android:background="@android:color/transparent"
 				android:contentDescription="@string/settings"
@@ -51,7 +51,7 @@
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
+				app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
 			<TextView
 				android:id="@+id/settings_title"
@@ -69,9 +69,11 @@
 		<ListView
 			android:id="@+id/settings_devices"
 			android:layout_width="match_parent"
-			android:layout_height="250dp"
+			android:layout_height="0dp"
 			android:layout_weight="1"
-			android:background="@color/colorSecondary">
+			android:background="@color/colorPrimary"
+			android:paddingLeft="8dp"
+			android:paddingRight="8dp">
 
 		</ListView>
 	</LinearLayout>
