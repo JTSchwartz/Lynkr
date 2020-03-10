@@ -12,7 +12,6 @@
 package com.jtschwartz.lynkr
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
@@ -22,6 +21,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,12 +40,13 @@ class MainActivity : AppCompatActivity() {
 		const val EXTRA_ADDRESS: String = "Device_Address"
 		var isConnected: Boolean = false
 		private const val OPEN_SETTINGS = 1
-		lateinit var progress: ProgressDialog
+		lateinit var progress: ProgressBar
 	}
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
+		progress = findViewById(R.id.progressBar);
 		
 		setupUI()
 		
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 				btDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(btAddress)
 				ConnectToDevice(this).execute()
 				curBtDevice.text = btDevice!!.name
+				sendCommand("init")
 			}
 		}
 	}
@@ -131,6 +133,10 @@ class MainActivity : AppCompatActivity() {
 		startActivityForResult(openSettings, OPEN_SETTINGS)
 	}
 	
+	fun resetConnection(view: View) {
+		ConnectToDevice(this).execute()
+	}
+	
 	fun disconnect() {
 		if (btSocket != null) {
 			try {
@@ -148,7 +154,6 @@ class MainActivity : AppCompatActivity() {
 			try {
 				btSocket!!.outputStream.write("${payload!!}\r\n".toByteArray())
 				btSocket!!.outputStream.flush()
-				println(payload)
 				val buffer = ByteArray(512)
 				val length = btSocket!!.inputStream.read(buffer)
 				val reception = String(buffer, 0, length)
@@ -207,7 +212,7 @@ class MainActivity : AppCompatActivity() {
 		
 		override fun onPreExecute() {
 			super.onPreExecute()
-			progress = ProgressDialog.show(context, "Connecting...", "please wait")
+			progress.visibility = View.VISIBLE;
 		}
 		
 		override fun doInBackground(vararg p0: Void?): String? {
@@ -233,7 +238,7 @@ class MainActivity : AppCompatActivity() {
 			} else {
 				connectSuccess = true
 			}
-			progress.dismiss()
+			progress.visibility = View.INVISIBLE;
 		}
 	}
 	
