@@ -26,6 +26,11 @@ object Commands {
 	
 	}
 	
+	object Transfer {
+		const val clipboard = "transfer|clipboard|"
+		const val webpage = "transfer|webpage|"
+	}
+	
 	object Volume {
 		const val decrease = "volume|decrease"
 		const val increase = "volume|increase"

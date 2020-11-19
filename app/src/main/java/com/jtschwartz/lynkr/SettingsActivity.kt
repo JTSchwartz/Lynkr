@@ -5,7 +5,7 @@
 //   description:  Implements the Settings UI Activity for selecting a Lynkr server
 //
 //        author:  Schwartz, Jacob T.
-//       Copyright (c) 2019 Schwartz, Jacob T. University of Dayton
+//       Copyright (c) 2020 Schwartz, Jacob T.
 //
 //******************************************************************************
 
