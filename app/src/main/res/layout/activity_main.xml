@@ -8,13 +8,42 @@
 	tools:context=".MainActivity">
 
 	<ImageButton
+		android:id="@+id/transfer_set"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/power_opt"
+		android:onClick="btnSimpleCommand"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toEndOf="@+id/hibernate"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/shutdown"
+		app:srcCompat="@drawable/ic_baseline_content_paste_24" />
+
+	<ImageButton
+		android:id="@+id/transfer_get"
+		android:layout_width="101dp"
+		android:layout_height="48dp"
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/power_opt"
+		android:onClick="btnSimpleCommand"
+		android:scaleType="fitCenter"
+		android:tint="@color/colorAccent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/hibernate"
+		app:layout_constraintTop_toTopOf="@+id/transfer_set"
+		app:srcCompat="@drawable/ic_baseline_content_paste_24" />
+
+	<ImageButton
 		android:id="@+id/prev_track"
 		android:layout_width="101dp"
 		android:layout_height="48dp"
 		android:layout_marginBottom="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/power_opt"
-		android:onClick="btnMedia"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toTopOf="@+id/volume_mute"
@@ -28,7 +57,7 @@
 		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/power_opt"
-		android:onClick="btnMedia"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +71,7 @@
 		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/power_opt"
-		android:onClick="btnMedia"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +85,7 @@
 		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/lock"
-		android:onClick="btnPower"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toStartOf="@+id/lock"
@@ -99,10 +128,11 @@
 		android:id="@+id/shutdown"
 		android:layout_width="101dp"
 		android:layout_height="48dp"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="32dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/power_opt"
-		android:onClick="btnPower"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toStartOf="@+id/hibernate"
@@ -127,7 +157,7 @@
 		android:layout_height="64dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/keystroke"
-		android:onClick="btnKeyStroke"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toBottomOf="parent"
@@ -143,7 +173,7 @@
 		android:layout_height="64dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/keystroke"
-		android:onClick="btnKeyStroke"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +189,7 @@
 		android:layout_height="64dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/keystroke"
-		android:onClick="btnKeyStroke"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +205,7 @@
 		android:layout_height="64dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/keystroke"
-		android:onClick="btnKeyStroke"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toBottomOf="parent"
@@ -193,7 +223,7 @@
 		android:layout_marginBottom="32dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/mute"
-		android:onClick="btnMute"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -206,7 +236,7 @@
 		android:layout_height="48dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/lock"
-		android:onClick="btnPower"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toStartOf="@+id/logout"
@@ -219,9 +249,10 @@
 		android:id="@+id/logout"
 		android:layout_width="102dp"
 		android:layout_height="48dp"
+		android:layout_marginEnd="32dp"
 		android:background="@android:color/transparent"
 		android:contentDescription="@string/camera"
-		android:onClick="btnLogout"
+		android:onClick="btnSimpleCommand"
 		android:scaleType="fitCenter"
 		android:tint="@color/colorAccent"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +262,7 @@
 		app:srcCompat="@drawable/ic_input_black_24dp" />
 
 	<TextView
-		android:id="@+id/curBtDevice"
+		android:id="@+id/device_label"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="16dp"
@@ -260,7 +291,7 @@
 		app:layout_constraintTop_toTopOf="@+id/volume_mute" />
 
 	<TextView
-		android:id="@+id/curVolume"
+		android:id="@+id/volume_label"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -269,14 +300,42 @@
 		app:layout_constraintTop_toBottomOf="@+id/volume_bar" />
 
 	<ProgressBar
-		android:id="@+id/progressBar"
+		android:id="@+id/progress_bar"
 		style="?android:attr/progressBarStyle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="256dp"
+		android:layout_marginTop="300dp"
 		android:progressTint="@color/colorAccent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
+
+	<ImageView
+		android:id="@+id/transfer_set_arrow"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:contentDescription="@string/copy"
+		android:rotation="90"
+		app:layout_constraintBottom_toBottomOf="@+id/transfer_set"
+		app:layout_constraintEnd_toEndOf="@+id/transfer_set"
+		app:layout_constraintStart_toStartOf="@+id/transfer_set"
+		app:layout_constraintTop_toTopOf="@+id/transfer_set"
+		app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+		app:tint="@color/colorAccent" />
+
+	<ImageView
+		android:id="@+id/transfer_get_arrow"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:contentDescription="@string/paste"
+		android:rotation="270"
+		app:layout_constraintBottom_toBottomOf="@+id/transfer_get"
+		app:layout_constraintEnd_toEndOf="@+id/transfer_get"
+		app:layout_constraintStart_toStartOf="@+id/transfer_get"
+		app:layout_constraintTop_toTopOf="@+id/transfer_get"
+		app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+		app:tint="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

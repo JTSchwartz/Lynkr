@@ -15,13 +15,16 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.URLUtil
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 		Log.i("log", "Create")
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-		progress = findViewById(R.id.progressBar)
+		progress = findViewById(R.id.progress_bar)
 		
 		setupUI()
 		
@@ -63,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 		btAddress?.let {
 			btDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(btAddress)
 			ConnectToDevice(this).execute()
-			curBtDevice.text = btDevice!!.name
+			device_label.text = btDevice!!.name
 			sendCommand("init")
 		}
 	}
@@ -74,21 +77,18 @@ class MainActivity : AppCompatActivity() {
 	}
 	
 	private fun setupUI() {
-		
-		curBtDevice.text = if (btAddress != null) "Connected to: ${btAdapter.getRemoteDevice(
-				btAddress)}" else "No Connected Device"
+		device_label.text = if (btAddress != null) "Connected to: ${btAdapter.getRemoteDevice(btAddress)}" else "No Connected Device"
 		
 		volume_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 			var volumeLevel = 0
 			
 			override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 				val intervaledProgress = if (progress % 2 == 0) progress else (progress + 1)
-				curVolume.text = intervaledProgress.toString().padEnd(1, '%')
+				volume_label.text = intervaledProgress.toString().padEnd(1, '%')
 				volumeLevel = intervaledProgress
 			}
 			
-			override fun onStartTrackingTouch(seekBar: SeekBar?) {
-			}
+			override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 			
 			override fun onStopTrackingTouch(seekBar: SeekBar?) {
 				sendCommand(Commands.Volume.set(volumeLevel))
@@ -96,61 +96,29 @@ class MainActivity : AppCompatActivity() {
 		})
 	}
 	
-	fun btnKeyStroke(view: View) {
+	fun btnSimpleCommand(view: View) {
 		val event: String? = when (view.id) {
 			keystroke_alpha.id -> Commands.Keystroke.alpha
 			keystroke_beta.id -> Commands.Keystroke.beta
 			keystroke_gamma.id -> Commands.Keystroke.gamma
 			keystroke_delta.id -> Commands.Keystroke.delta
-			else -> null
-		}
-		
-		sendCommand(event)
-	}
-	
-	fun btnLogout(view: View) {
-		sendCommand(Commands.Access.logout)
-	}
-	
-	fun btnPower(view: View) {
-		val event: String? = when (view.id) {
 			hibernate.id -> Commands.Power.hibernate
 			lock.id -> Commands.Access.lock
 			shutdown.id -> Commands.Power.shutdown
-			else -> null
-		}
-		
-		sendCommand(event)
-	}
-	
-	fun btnMedia(view: View) {
-		val event: String? = when (view.id) {
 			next_track.id -> Commands.Media.next
 			play_pause.id -> Commands.Media.playPause
 			prev_track.id -> Commands.Media.prev
-			else -> null
+			volume_mute.id -> Commands.Volume.mute
+			logout.id -> Commands.Access.logout
+			transfer_get.id -> Commands.Transfer.get
+			transfer_set.id -> "${Commands.Transfer.set}${(getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).primaryClip?.getItemAt(0)?.text}"
+			else               -> null
 		}
 		
 		sendCommand(event)
 	}
 	
-	fun btnMute(view: View) {
-		sendCommand(Commands.Volume.mute)
-	}
-	
-	fun btnClipboard(view: View) {
-		val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-		sendCommand(Commands.Transfer.clipboard + clipboard)
-	}
-	
-	fun btnWebpage(view: View) {
-		val webpage = ""
-		
-		sendCommand(Commands.Transfer.webpage + webpage)
-	}
-	
 	fun btnSettings(view: View) {
-		Log.i("log", "Settings")
 		val openSettings = Intent(this, SettingsActivity::class.java)
 		openSettings.putExtra(EXTRA_ADDRESS, btAddress)
 		startActivityForResult(openSettings, OPEN_SETTINGS)
@@ -187,8 +155,23 @@ class MainActivity : AppCompatActivity() {
 				btSocket!!.outputStream.close()
 				btSocket!!.inputStream.close()
 				
-				val volume = reception.split("|")[1].trim().toInt()
-				volume_bar.progress = volume
+				val response = reception.split("|")
+				when (response[0]) {
+					"clipboard" -> {
+						val content = reception.substringAfter("|")
+						val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+						val clip = ClipData.newPlainText("Copied from ${btDevice?.name ?: "Desktop"}", content)
+						clipboard.setPrimaryClip(clip)
+						
+						if (URLUtil.isValidUrl(content)) {
+							val openURL = Intent(Intent.ACTION_VIEW)
+							openURL.data = Uri.parse(content)
+							startActivity(openURL)
+						}
+						
+					}
+					"volume" -> volume_bar.progress = reception.split("|")[1].trim().toInt()
+				}
 				
 				btAdapter = BluetoothAdapter.getDefaultAdapter()
 				val device: BluetoothDevice = btAdapter.getRemoteDevice(btAddress)
@@ -283,7 +266,7 @@ class MainActivity : AppCompatActivity() {
 				val returnedDevice = data?.getStringExtra(SettingsActivity.EXTRA_ADDRESS)
 				val returnedDeviceName = data?.getStringExtra(SettingsActivity.EXTRA_NAME)
 				Log.i("log", "Got Device: $returnedDevice")
-				curBtDevice.text = returnedDeviceName
+				device_label.text = returnedDeviceName
 				
 				if (returnedDevice != null) {
 					btAddress = returnedDevice.toString()

@@ -14,6 +14,7 @@
 		android:layout_marginBottom="16dp"
 		android:backgroundTint="@color/colorAccent"
 		android:clickable="true"
+		android:contentDescription="@string/refresh_list"
 		android:focusable="true"
 		android:onClick="refreshBluetoothList"
 		app:backgroundTint="@null"
@@ -72,8 +73,10 @@
 			android:layout_height="0dp"
 			android:layout_weight="1"
 			android:background="@color/colorPrimary"
-			android:paddingLeft="8dp"
-			android:paddingRight="8dp">
+			android:paddingStart="24dp"
+			android:paddingLeft="24dp"
+			android:paddingEnd="24dp"
+			android:paddingRight="24dp">
 
 		</ListView>
 	</LinearLayout>

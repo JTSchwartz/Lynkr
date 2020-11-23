@@ -1,14 +1,17 @@
 <resources>
 	<string name="app_name">Lynkr</string>
-	<string name="reset_connection">Reset Connection</string>
-	<string name="settings">Settings</string>
-	<string name="power_opt">Power Options</string>
-	<string name="lock">Lock</string>
 	<string name="camera">Camera</string>
+	<string name="copy">Copy</string>
 	<string name="keystroke">Customizable KeyStroke</string>
-	<string name="volume_increase">Increase Volume</string>
-	<string name="volume_decrease">Decrease Volume</string>
+	<string name="lock">Lock</string>
 	<string name="mute">Mute</string>
 	<string name="nav_home">Back to Home</string>
+	<string name="paste">Paste</string>
+	<string name="power_opt">Power Options</string>
 	<string name="preferences_key">preferences</string>
+	<string name="refresh_list">Refresh Bluetooth List</string>
+	<string name="reset_connection">Reset Connection</string>
+	<string name="settings">Settings</string>
+	<string name="volume_decrease">Decrease Volume</string>
+	<string name="volume_increase">Increase Volume</string>
 </resources>

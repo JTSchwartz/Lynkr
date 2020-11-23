@@ -27,8 +27,8 @@ object Commands {
 	}
 	
 	object Transfer {
-		const val clipboard = "transfer|clipboard|"
-		const val webpage = "transfer|webpage|"
+		const val get = "transfer|get"
+		const val set = "transfer|set|"
 	}
 	
 	object Volume {
