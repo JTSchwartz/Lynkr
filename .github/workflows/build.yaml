@@ -1,28 +1,23 @@
 name: Build
 
-on:
-  pull_request:
-  push:
-    branches:
-      - master
+on: [pull_request, push]
+jobs:
+  detekt:
+    runs-on: ubuntu-latest
 
-  jobs:
-    detekt:
-      runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout the code"
+        uses: actions/checkout@v2
 
-      steps:
-        - name: "Checkout the code"
-          uses: actions/checkout@v2
+      - name: "Run Detekt"
+        uses: natiginfo/action-detekt-all@1.16.0-RC1
+        with:
+          args: --fail-fast --config config/detekt/config.yml
 
-        - name: "Run Detekt"
-          uses: natiginfo/action-detekt-all@1.16.0-RC1
-          with:
-            args: --fail-fast --config config/detekt/config.yml
-
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: "Checkout the code"
-          uses: actions/checkout@v2
-        - name: "Build the app"
-          run: ./gradlew build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout the code"
+        uses: actions/checkout@v2
+      - name: "Build the app"
+        run: ./gradlew build
