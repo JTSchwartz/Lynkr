@@ -66,15 +66,16 @@ class SettingsActivity : AppCompatActivity() {
 		settings_devices.adapter = adapter
 		settings_devices.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ ->
 			btDevice = btDeviceList[pos]
+			val result = Intent()
+			result.putExtra(EXTRA_ADDRESS, btDevice.toString())
+			result.putExtra(EXTRA_NAME, btDevice!!.name)
+			setResult(Activity.RESULT_OK, result)
+			finish()
 		}
 	}
 	
 	fun navigateHome(view: View) {
-		val result = Intent()
-		result.putExtra(EXTRA_ADDRESS, btDevice.toString())
-		result.putExtra(EXTRA_NAME, btDevice!!.name)
-		setResult(Activity.RESULT_OK, result)
-		
+		setResult(Activity.RESULT_CANCELED, Intent())
 		finish()
 	}
 	

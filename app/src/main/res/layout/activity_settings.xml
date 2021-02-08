@@ -43,7 +43,7 @@
 				android:id="@+id/settings_return"
 				android:layout_width="32dp"
 				android:layout_height="32dp"
-				android:layout_marginStart="16dp"
+				android:layout_marginStart="32dp"
 				android:background="@android:color/transparent"
 				android:contentDescription="@string/settings"
 				android:onClick="navigateHome"

@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 	}
 	
 	fun btnSimpleCommand(view: View) {
+		Log.i("log", view.id.toString())
 		val event: String? = when (view.id) {
 			keystroke_alpha.id -> Commands.Keystroke.alpha
 			keystroke_beta.id -> Commands.Keystroke.beta
@@ -280,6 +281,8 @@ class MainActivity : AppCompatActivity() {
 						commit()
 					}
 				}
+			} else if (resultCode == Activity.RESULT_CANCELED) {
+				Log.i("log", "No Device Change")
 			}
 		}
 	}
